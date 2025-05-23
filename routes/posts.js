@@ -4,8 +4,14 @@ const Post = require('../models/Post.js')
 
 router.post('/create', async(req, res) => {
     try {
-        const post = await Post.create(req.body)
-        res.status(201).send(post)
+        const title = req.body.title
+        const body = req.body.body
+        if(title != undefined && body != undefined){
+            const post = await Post.create(req.body)
+            res.status(201).send(post)
+        }else{
+            res.status(200).send({message: 'Invalid parameters'})
+        }
     } catch (error) {
         console.error(error)
         res.status(500).send({message: 'There was a problem trying to create the post'})
